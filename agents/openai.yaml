@@ -7,9 +7,15 @@ default_prompt: >
   15-second or 30-second English script text. Lock product truth before any
   creative work. Build an internal Content Attribute Card with target buyer,
   buyer stage, content angle, hook type, core message, product promise, reason
-  to believe, objection, proof asset, and CTA intent. Infer product behavior,
-  shopper tension, reason to watch, product entrance, one DTC creative lens,
-  visual device, proof sequence, script payload, and creative safety internally.
+  to believe, objection, proof asset, and CTA intent. Follow the six-step
+  workflow: evidence lock, content attribute card, content strategy selection,
+  five-panel storyboard mapping, English script, and final QA. Infer product
+  behavior, shopper tension, buyer event, reason to watch, product entrance,
+  one DTC creative lens, visual device, proof sequence, script payload, and
+  creative safety internally. Map content_angle -> hook_type -> creative_lens
+  -> proof_asset -> CTA intent. Each storyboard panel must have a content task,
+  not just a visual style. Panel 1 must work as the hook and product entrance;
+  panel 5 must increase purchase confidence.
   Keep the product as the hero. DTC creativity may improve memorability, but it
   must not change product geometry, material, color, packaging, function, scale,
   claim, use case, or buyer decision logic. Do not expose internal analysis as

@@ -52,20 +52,26 @@ cta_intent
 
 这些字段决定故事版和英文脚本。
 
-## 内部流程
+## 6 步内部流程
 
 ```text
-读取商品证据
-+ 锁定 Product Truth
-+ 判断商品行为
-+ 建立 Content Attribute Card
-+ 找 shopper_tension
-+ 选择 content_angle 和 hook_type
-+ 选择 DTC creative lens
-+ 设计 product_entrance
-+ 组织 5 格 16:9 商品创意故事版
-+ 写 15 秒或 30 秒英文脚本
+1. 证据锁定
+2. 建立 Content Attribute Card
+3. 选择内容策略
+4. 映射到 5 格 16:9 故事版
+5. 写 15 秒或 30 秒英文脚本
+6. 交付前 QA
 ```
+
+关键映射必须成立：
+
+```text
+content_angle -> hook_type -> creative_lens -> proof_asset -> CTA intent
+```
+
+每一格故事版都必须有内容任务，不允许只负责好看。
+
+第 1 格要同时承担 hook 和商品进入；第 5 格要增强购买信心，而不是只做漂亮收尾。
 
 ## DTC content angle
 

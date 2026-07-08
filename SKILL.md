@@ -72,6 +72,80 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 
 第三段脚本必须是英文。表格里的 `屏幕字幕` 和 `旁白 / 口播` 必须是自然英文。
 
+## 执行流程
+
+每次运行都按 6 步走，不要跳步。
+
+### 1. 证据锁定
+
+读取产品图、商品页、截图或 SKU brief，建立商品真相。
+
+完成标准：
+
+- 能指出商品是什么。
+- 能指出哪些视觉事实不能变。
+- 能指出哪些功能、结果或声明没有证据，不能写。
+- 如果证据不足，停止，不进入故事版。
+
+### 2. 内容属性卡
+
+建立内部 `Content Attribute Card`。
+
+完成标准：
+
+- `target_buyer` 具体，不是泛泛的 customers。
+- `buyer_stage` 已选择。
+- `content_angle` 只选一个。
+- `hook_type` 只选一个。
+- `core_message` 是一句话，不是卖点列表。
+- `reason_to_believe` 能被画面证明。
+- `objection` 和 `proof_asset` 对应。
+- `cta_intent` 是买家下一步动作，不是空泛 slogan。
+
+### 3. 内容策略选择
+
+把内容属性转成一个可拍的内容策略。
+
+完成标准：
+
+- `shopper_tension` 能解释为什么用户会继续看。
+- `buyer_event` 是一个真实可见动作或时刻。
+- `creative_lens` 服务内容角度，不只是视觉风格。
+- `product_entrance` 发生在第 1 或第 2 格。
+- `visual_device` 能组织 5 格画面。
+
+### 4. 5 格故事版映射
+
+把内容策略映射到 5 格 16:9 画面。
+
+完成标准：
+
+- 每一格有一个内容任务。
+- 每一格都保持商品真相。
+- 至少两格证明商品细节。
+- 至少两格承载内容角度或 creative lens。
+- 第 5 格增强购买信心，而不是只做漂亮收尾。
+
+### 5. 英文脚本
+
+写 15 秒或 30 秒英文脚本。
+
+完成标准：
+
+- 每行字幕和旁白都服务对应内容任务。
+- 不用旁白补救画面没有证明的内容。
+- 不添加故事版没有的新利益点、新场景或新 CTA。
+
+### 6. 交付前 QA
+
+按 `交付前检查` 逐项检查。
+
+完成标准：
+
+- 默认输出仍然只有三段。
+- 内容属性、创意镜头、脚本和故事版互相一致。
+- 商品真相优先级高于所有创意表达。
+
 ## 商品真相门槛
 
 做任何创意判断前，先在内部锁定商品真相。
@@ -178,6 +252,44 @@ DTC 内容不能只有镜头，必须先有内容属性。
 
 默认不要把完整 `Content Attribute Card` 作为独立章节输出；但 `## 2. 故事版` 里的创意大片方向必须体现这些属性。
 
+## 内容策略映射
+
+`content_angle` 决定说什么，`hook_type` 决定怎么开场，`creative_lens` 决定怎么拍。
+
+三者必须匹配：
+
+```text
+content_angle -> hook_type -> creative_lens -> proof_asset -> CTA intent
+```
+
+不要出现：
+
+- 内容角度是 objection handling，但画面没有消除疑虑。
+- hook 是 curiosity gap，但后面没有解释这个 gap。
+- creative lens 是 visual metaphor，但隐喻改了商品功能。
+- proof_asset 是材质/结构，但故事版只展示生活方式。
+- CTA intent 是确认适配，但最后一格没有给适配信心。
+
+## Buyer Event
+
+`buyer_event` 是承载内容角度的真实动作或时刻。
+
+它不是大剧情，也不是情绪包装。
+
+好的 `buyer_event`：
+
+- 展示买家正在确认尺寸、材质、配置、颜色、用法或结果。
+- 展示商品进入真实流程中的一个关键瞬间。
+- 展示一个可见细节如何解决一个疑虑。
+- 展示从问题到商品证明的最短路径。
+
+差的 `buyer_event`：
+
+- 为了氛围添加家庭、送礼、户外、派对、夸张人物。
+- 让商品变成背景道具。
+- 只制造情绪，不解决买家问题。
+- 依赖无法证明的功效或结果。
+
 ## DTC 内容角度菜单
 
 `content_angle` 决定这条内容讲什么，不等于镜头风格。
@@ -216,6 +328,21 @@ DTC 内容不能只有镜头，必须先有内容属性。
 
 不要选择证据不支持的内容角度。
 
+内容角度必须落到 5 格：
+
+| content_angle | 第 2 格任务 | 第 4 格任务 | 第 5 格任务 |
+|---|---|---|---|
+| problem-solution | 让问题可见 | 商品解决过程 | 解决后的可信状态 |
+| objection handling | 明确一个疑虑 | 用证据消除疑虑 | 给购买信心 |
+| feature-to-benefit | 展示功能入口 | 功能转成利益 | 利益和商品绑定 |
+| use-case demo | 建立具体场景 | 展示真实使用 | 收束到使用后状态 |
+| comparison | 建立对比对象 | 商品差异可见 | 明确为什么选它 |
+| social identity | 建立人群语境 | 商品服务身份/场景 | 用户自我代入 |
+| customization / choice | 展示选择问题 | 展示配置/定制过程 | 最终选择状态 |
+| trust proof | 建立不信任点 | 展示可信证据 | 强化放心购买 |
+| sensory proof | 建立感官期待 | 展示质地/声音/触感 | 保留可感知记忆点 |
+| routine integration | 建立日常流程 | 商品进入流程 | 流程完成状态 |
+
 ## DTC Hook 菜单
 
 `hook_type` 决定前 2 秒怎么进入。
@@ -247,6 +374,12 @@ DTC 内容不能只有镜头，必须先有内容属性。
   展示颜色、款式、定制、配置或套装选择。
 
 Hook 必须和商品证据相关。不要用泛情绪钩子。
+
+Hook 必须在第 1 格和 0-2s 脚本同时成立。
+
+如果画面看不出 hook，重写第 1 格。
+
+如果字幕/旁白里的 hook 不能被画面证明，删掉或改弱。
 
 ## DTC 创意判断
 
@@ -329,6 +462,16 @@ Hook 必须和商品证据相关。不要用泛情绪钩子。
 - 假声明
 - 和购买决策无关的装饰道具
 
+creative lens 必须服务 content_angle。
+
+示例：
+
+- `objection handling` + `mechanism reveal`: 用结构/材质近景消除质量疑虑。
+- `customization / choice` + `configuration reveal`: 用选项变化证明可配置。
+- `trust proof` + `proof-first demo`: 用细节和使用过程建立信任。
+- `feature-to-benefit` + `visual metaphor`: 用简单隐喻帮助理解利益，但不改变商品功能。
+- `routine integration` + `social proof scene`: 展示商品进入日常流程，但人物不能压过商品。
+
 ## 创意安全门槛
 
 DTC 创意只能在商品真相锁定之后进入。
@@ -367,7 +510,7 @@ DTC 创意只能在商品真相锁定之后进入。
 内容属性锁: 一句概括 target_buyer、content_angle、hook_type、core_message、proof_asset
 创意大片方向: 一句简洁的 DTC Creative Film Treatment
 同一拍摄世界锁: 一段紧凑的 Shooting World Lock
-5 格 16:9 连续关键帧: 一张 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面
+5 格 16:9 连续关键帧: 一张 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面；每格必须有内容任务
 ```
 
 5 格逻辑：
@@ -439,6 +582,13 @@ DTC 创意只能在商品真相锁定之后进入。
 ```
 
 所有屏幕字幕和旁白必须是英文。
+
+字幕规则：
+
+- 字幕要短，优先 2-6 个英文词。
+- 字幕承担内容任务，不重复画面废话。
+- 字幕不能写画面没证明的卖点。
+- 旁白可以补充解释，但不能替代 proof_asset。
 
 ## 交付前检查
 
