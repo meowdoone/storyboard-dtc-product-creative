@@ -25,7 +25,7 @@ Product Truth
 -> Storyboard Design Expert
 -> Horizontal 5-panel image
 -> English video script with Camera / Motion
--> Local QA
+-> Local validation
 ```
 
 ## Internal Roles
@@ -52,7 +52,7 @@ picture_fragment_logic
 
 - 一张横屏 5 格 16:9 storyboard/contact sheet 图片；
 - 15 秒或 30 秒英文视频脚本；
-- 本地 QA 记录。
+- 本地验证记录。
 
 ## Reference Pack 简版
 
@@ -109,12 +109,11 @@ dtc_creative_reference_pack:
 ```text
 run.json
 source_records.json
-qa.json
 contact_sheet.png
 panels/*.png
 ```
 
-`qa.json` 至少需要：
+`run.json` 至少需要：
 
 ```json
 {
@@ -146,8 +145,8 @@ python3 scripts/validate_storyboard.py /path/to/output_dir
 
 验证内容：
 
-- `run.json`、`source_records.json`、`qa.json` 都存在且是有效 JSON。
-- `qa.json` 包含 `source_url` 和 `locked_terms`。
+- `run.json`、`source_records.json` 都存在且是有效 JSON。
+- `run.json` 包含 `source_url` 和 `locked_terms`。
 - contact sheet 是横向单行 5 格图。
 - `panels/` 中 5 张 panel 均为 16:9。
 - 竖向堆叠 contact sheet 会失败。

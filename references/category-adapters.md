@@ -71,7 +71,7 @@ Forbid mutations:
 - `invent_logo_or_artwork`
 - `add_unsupported_front_back_print`
 
-QA checks:
+Validation checks:
 
 - the garment type is stable in all panels,
 - the Design Asset is identical or clearly the same placeholder,
@@ -124,7 +124,7 @@ Forbid mutations:
 - `invent_fake_ui`
 - `change_product_base`
 
-QA checks:
+Validation checks:
 
 - the same personalization appears from preview to final state,
 - customization placement and scale stay stable,

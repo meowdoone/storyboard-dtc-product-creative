@@ -1,5 +1,5 @@
 display_name: DTC Product Creative Storyboard
-short_description: Build SKU-level DTC storyboards through Product Truth, DTC Creative Director, Reference Pack, Storyboard Design Expert, and local QA.
+short_description: Build SKU-level DTC storyboards through Product Truth, DTC Creative Director, Reference Pack, Storyboard Design Expert, and local validation.
 default_prompt: >
   Use this skill for SKU-level DTC product storyboard work from a product URL,
   ASIN, product image, screenshot, ecommerce page, or SKU brief. First build a
@@ -15,7 +15,8 @@ default_prompt: >
   video-ready keyframe, and panel 3 must be the strongest product proof. The
   user-facing output remains exactly three sections: product image, storyboard
   image, and a 15-second or 30-second English script. The English script must
-  include Camera / Motion and Reference Logic. Save run.json,
-  source_records.json, and qa.json when filesystem access is available. Run
-  scripts/validate_storyboard.py for local outputs. Stop instead of returning a
-  text-only storyboard if image generation or image embedding is unavailable.
+  include Camera / Motion and Reference Logic. Save run.json and
+  source_records.json when filesystem access is available. Run
+  scripts/validate_storyboard.py for local outputs. Store validation metadata in
+  run.json. Stop instead of returning a text-only storyboard if image generation
+  or image embedding is unavailable.

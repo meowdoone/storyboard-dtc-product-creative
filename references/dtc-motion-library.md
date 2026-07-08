@@ -46,7 +46,7 @@ motion_ref:
 | texture-touch | fabric, material, leather, paper, food, care | fingers near texture | touch, press, glide | subtle material response visible | fingers press/glide | texture responds subtly | macro-push-in | panel 3 sensory proof | response must be restrained | AI plastic feel |
 | close-open | box, lid, bag, bottle, clasp, storage | product closed | open | inside/function state visible | hand opens lid/zip/flap | product changes state | top-down-tabletop / macro-push-in | mechanism or package proof | opening structure real | invented internals |
 
-## Motion QA
+## Motion Checks
 
 Reject a motion choice when:
 

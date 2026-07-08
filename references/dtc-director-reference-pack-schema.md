@@ -172,4 +172,4 @@ Storyboard Design Expert must not re-select creative direction. It may only tran
 
 - one actual horizontal five-panel 16:9 storyboard image,
 - one English 15s or 30s video script,
-- local QA records.
+- local validation records.

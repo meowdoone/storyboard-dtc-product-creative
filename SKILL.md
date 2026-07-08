@@ -94,7 +94,7 @@ Run these steps in order:
 6. Storyboard Design Expert
 7. Horizontal 5-Panel Storyboard Image Generation
 8. English Video Demo Script
-9. Final QA
+9. Delivery Validation
 ```
 
 ### 1. Product Truth Lock
@@ -217,15 +217,15 @@ Default to 15 seconds. Use 30 seconds only when requested.
 
 Completion: `Camera / Motion` matches `camera_selection` and `motion_selection`; `Reference Logic` explains borrowed structure without naming specific brands; all script-facing text is English.
 
-### 9. Final QA
+### 9. Delivery Validation
 
 Run [scripts/validate_storyboard.py](scripts/validate_storyboard.py) when local files exist.
 
 Completion:
 
 - final response remains the three user-facing sections,
-- `run.json`, `source_records.json`, and `qa.json` exist for local runs,
-- `qa.json` contains `source_url` and `locked_terms`,
+- `run.json` and `source_records.json` exist for local runs,
+- `run.json` contains `source_url` and `locked_terms`,
 - contact sheet is horizontal single-row,
 - five panel images are 16:9,
 - panel 3 is strongest product proof,
@@ -252,14 +252,11 @@ The final user-facing response stays three sections, but every executed local ru
 ```text
 run.json
 source_records.json
-qa.json
 ```
 
-`run.json` should include `product_truth_card`, selected category adapters, `dtc_director_input`, `dtc_creative_reference_pack`, and output paths.
+`run.json` should include `product_truth_card`, selected category adapters, `dtc_director_input`, `dtc_creative_reference_pack`, output paths, and validation fields: `source_url`, `locked_terms`, `forbid_mutations`, `creative_type`, `scene_ref`, `motion_chain`, `model_ref`, `camera_plan`, `panel_count`, `panel_aspect_ratio`, `contact_sheet`, and `contact_sheet_layout`.
 
 `source_records.json` should include all source records and fallback records.
-
-`qa.json` should include `source_url`, `locked_terms`, `forbid_mutations`, `creative_type`, `scene_ref`, `motion_chain`, `model_ref`, `camera_plan`, `panel_count`, `panel_aspect_ratio`, `contact_sheet`, `contact_sheet_layout`, and pass/fail flags.
 
 ## Output Contract
 
@@ -284,4 +281,4 @@ Use this shape in the final answer:
 |---|---|---|---|---|---|
 ```
 
-Do not expose Product Truth Card, full Reference Pack, source records, JSON, or QA notes in the final response unless the user asks for them.
+Do not expose Product Truth Card, full Reference Pack, source records, JSON, or validation notes in the final response unless the user asks for them.
