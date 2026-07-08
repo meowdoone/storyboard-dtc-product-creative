@@ -38,6 +38,12 @@ Completion criteria:
 - Every attempt creates a `source_record`.
 - Blocked sources produce fallback records.
 
+## Buyer Problem Seeds
+
+Derive `buyer_problem` and `proof_type` from `buyer_situation_router` in [dtc-creative-pattern-library.md](dtc-creative-pattern-library.md).
+
+Use the matched buyer situation to search for reference structures that prove the same kind of problem, not to copy another SKU's claims or assets.
+
 ## Source Priority
 
 1. User-provided references.

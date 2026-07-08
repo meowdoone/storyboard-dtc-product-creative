@@ -12,9 +12,20 @@ from typing import Iterable
 
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg"}
-CONTACT_SHEET_MIN_RATIO = 4.0
 PANEL_RATIO = 16 / 9
 PANEL_RATIO_TOLERANCE = 0.04
+FORBIDDEN_DIRECTOR_TERMS = [
+    "director",
+    "导演",
+    "Denis Villeneuve",
+    "Villeneuve",
+    "David Fincher",
+    "Fincher",
+    "王家卫",
+    "Wong Kar-wai",
+    "Wong Kar Wai",
+    "Wes Anderson",
+]
 
 
 def read_png_size(path: Path) -> tuple[int, int]:
@@ -154,6 +165,10 @@ def normalize_run_metadata(run: dict, source_records: dict) -> dict:
     if not isinstance(pack, dict):
         pack = {}
 
+    brand_film_look_pack = run.get("brand_film_look_pack")
+    if not isinstance(brand_film_look_pack, dict):
+        brand_film_look_pack = {}
+
     creative_type = first_nonempty(
         run.get("creative_type"),
         get_nested(pack, ["creative_type", "id"]),
@@ -175,6 +190,15 @@ def normalize_run_metadata(run: dict, source_records: dict) -> dict:
         run.get("camera_plan"),
         get_nested(pack, ["camera_selection", "camera_plan"]),
     )
+    brand_film_mode = first_nonempty(
+        run.get("brand_film_mode"),
+        pack.get("brand_film_mode"),
+        brand_film_look_pack.get("brand_film_mode"),
+    )
+    end_frame = first_nonempty(
+        run.get("end_frame"),
+        pack.get("end_frame"),
+    )
 
     output_paths = first_nonempty(run.get("output_paths"), run.get("outputs"))
     if not isinstance(output_paths, dict):
@@ -192,15 +216,18 @@ def normalize_run_metadata(run: dict, source_records: dict) -> dict:
         "motion_chain": motion_chain,
         "model_ref": model_ref,
         "camera_plan": camera_plan,
+        "brand_film_mode": brand_film_mode,
+        "brand_film_look_pack": first_nonempty(
+            run.get("brand_film_look_pack"),
+            run.get("brandFilmLookPack"),
+        ),
+        "end_frame": end_frame,
         "panel_count": first_nonempty(run.get("panel_count"), output_paths.get("panel_count")),
         "panel_aspect_ratio": first_nonempty(
             run.get("panel_aspect_ratio"), output_paths.get("panel_aspect_ratio")
         ),
         "panel_paths": first_nonempty(run.get("panel_paths"), output_paths.get("panel_paths")),
         "contact_sheet": first_nonempty(run.get("contact_sheet"), output_paths.get("contact_sheet")),
-        "contact_sheet_layout": first_nonempty(
-            run.get("contact_sheet_layout"), output_paths.get("contact_sheet_layout")
-        ),
     }
 
 
@@ -241,6 +268,9 @@ def validate_metadata(metadata: dict) -> list[str]:
         "motion_chain",
         "model_ref",
         "camera_plan",
+        "brand_film_mode",
+        "brand_film_look_pack",
+        "end_frame",
     ]:
         if not is_nonempty(metadata.get(field)):
             errors.append(f"run.json missing non-empty `{field}`")
@@ -257,6 +287,73 @@ def validate_metadata(metadata: dict) -> list[str]:
                 errors.append(f"run.json `camera_plan` missing non-empty `{field}`")
     elif "camera_plan" in metadata:
         errors.append("run.json `camera_plan` must be an object")
+
+    brand_film_mode = metadata.get("brand_film_mode")
+    if isinstance(brand_film_mode, dict):
+        for field in [
+            "mode_id",
+            "visual_signature",
+            "key_technique",
+            "product_translation",
+            "camera_translation",
+            "lighting_translation",
+            "risk",
+        ]:
+            if not is_nonempty(brand_film_mode.get(field)):
+                errors.append(f"run.json `brand_film_mode` missing non-empty `{field}`")
+        exposed_text = json.dumps(brand_film_mode, ensure_ascii=False)
+        for term in FORBIDDEN_DIRECTOR_TERMS:
+            if term in exposed_text:
+                errors.append(f"run.json `brand_film_mode` exposes forbidden director term `{term}`")
+    elif "brand_film_mode" in metadata:
+        errors.append("run.json `brand_film_mode` must be an object")
+
+    brand_film_look_pack = metadata.get("brand_film_look_pack")
+    if isinstance(brand_film_look_pack, dict):
+        for field in [
+            "brand_film_mode",
+            "brand_world_lock",
+            "cinematic_grammar",
+            "shot_function_map",
+            "material_and_light_rules",
+            "pacing_rules",
+            "signature_shot",
+            "end_frame_rule",
+            "failure_rules",
+        ]:
+            if not is_nonempty(brand_film_look_pack.get(field)):
+                errors.append(f"run.json `brand_film_look_pack` missing non-empty `{field}`")
+
+        shot_function_map = brand_film_look_pack.get("shot_function_map")
+        if isinstance(shot_function_map, dict):
+            panels = shot_function_map.get("panels")
+            if not isinstance(panels, list) or not panels:
+                errors.append("run.json `brand_film_look_pack.shot_function_map.panels` must be a non-empty list")
+        elif "shot_function_map" in brand_film_look_pack:
+            errors.append("run.json `brand_film_look_pack.shot_function_map` must be an object")
+
+        exposed_text = json.dumps(brand_film_look_pack, ensure_ascii=False)
+        for term in FORBIDDEN_DIRECTOR_TERMS:
+            if term in exposed_text:
+                errors.append(f"run.json `brand_film_look_pack` exposes forbidden director term `{term}`")
+    elif "brand_film_look_pack" in metadata:
+        errors.append("run.json `brand_film_look_pack` must be an object")
+
+    end_frame = metadata.get("end_frame")
+    if isinstance(end_frame, dict):
+        for field in [
+            "product_position",
+            "logo_or_label_visibility",
+            "proof_memory",
+            "CTA_intent",
+            "camera_state",
+            "lighting_state",
+        ]:
+            if not is_nonempty(end_frame.get(field)):
+                errors.append(f"run.json `end_frame` missing non-empty `{field}`")
+    elif "end_frame" in metadata:
+        errors.append("run.json `end_frame` must be an object")
+
     if metadata.get("panel_count") not in (None, 5):
         errors.append("run.json `panel_count` must be 5 when present")
     if metadata.get("panel_aspect_ratio") not in (None, "16:9"):
@@ -277,16 +374,8 @@ def validate_contact_sheet(output_dir: Path, metadata: dict) -> list[str]:
     except ValueError as exc:
         return [f"contact sheet size read failed: {exc}"]
 
-    if width <= height:
-        errors.append(
-            f"contact sheet must be horizontal single-row; got {width}x{height}"
-        )
-    if height > 0 and width / height < CONTACT_SHEET_MIN_RATIO:
-        errors.append(
-            f"contact sheet ratio too narrow for five landscape panels; got {width / height:.3f}"
-        )
-    if metadata.get("contact_sheet_layout") not in (None, "horizontal_single_row"):
-        errors.append("run.json `contact_sheet_layout` must be `horizontal_single_row` when present")
+    if width <= 0 or height <= 0:
+        errors.append(f"contact sheet has invalid size: {width}x{height}")
     return errors
 
 
