@@ -73,6 +73,7 @@ dtc_creative_reference_pack:
 
   creative_type:
     id:
+    description:
     reason:
     buyer_tension:
     proof_asset:
@@ -95,6 +96,7 @@ dtc_creative_reference_pack:
 
   scene_selection:
     scene_ref:
+    description:
     source_reference:
     location:
     surface:
@@ -107,6 +109,7 @@ dtc_creative_reference_pack:
   motion_selection:
     motion_chain:
       - motion_ref:
+        description:
         start_state:
         action:
         end_state:
@@ -118,6 +121,7 @@ dtc_creative_reference_pack:
 
   model_selection:
     model_ref:
+    description:
     presence_type:
     role:
     visibility:
@@ -133,8 +137,23 @@ dtc_creative_reference_pack:
       proof_camera:
       use_camera:
       end_frame_camera:
+    camera_descriptions:
+      opening_camera:
+      context_camera:
+      proof_camera:
+      use_camera:
+      end_frame_camera:
     transition_logic:
     reason:
+
+  brand_film_mode:
+    mode_id:
+    visual_signature:
+    key_technique:
+    product_translation:
+    camera_translation:
+    lighting_translation:
+    risk:
 
   script_pattern:
     hook_line_logic:
@@ -143,11 +162,21 @@ dtc_creative_reference_pack:
     pacing_structure:
 
   picture_fragment_logic:
-    panel_1:
-    panel_2:
-    panel_3:
-    panel_4:
-    panel_5:
+    panels:
+      - panel_number:
+        content_task:
+        visual_fragment_logic:
+        motion_ref:
+        camera_ref:
+        proof_role:
+
+  end_frame:
+    product_position:
+    logo_or_label_visibility:
+    proof_memory:
+    CTA_intent:
+    camera_state:
+    lighting_state:
 
   rejected_references:
     - source_url:
@@ -159,10 +188,13 @@ dtc_creative_reference_pack:
 ## Completion Criteria
 
 - `creative_type` is exactly one main type.
-- `scene_selection`, `motion_selection`, `model_selection`, and `camera_selection` are present.
+- `scene_selection`, `motion_selection`, `model_selection`, `camera_selection`, and `brand_film_mode` are present.
+- Every selected `creative_type`, `scene_ref`, `motion_ref`, `model_ref`, and `camera_ref` carries the Chinese `description` from its reference library.
 - `motion_selection.motion_chain` uses `start_state -> action -> end_state`.
-- `camera_selection.camera_plan.proof_camera` supports panel 3 product proof.
-- `picture_fragment_logic.panel_3` is the strongest product proof.
+- `camera_selection.camera_plan` supports the selected `picture_fragment_logic`.
+- `brand_film_mode` translates cinematic influence into brand-film language and does not expose director names.
+- `picture_fragment_logic` assigns product proof where the selected creative logic needs it, without forcing a fixed panel role template.
+- `end_frame` defines product position, logo/label visibility, proof memory, CTA intent, camera state, and lighting state.
 - `selected_ad_references` all have `source_url` or local source path.
 - `what_not_to_copy` explicitly protects Product Truth Card locks.
 
