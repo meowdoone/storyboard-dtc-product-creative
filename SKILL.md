@@ -17,14 +17,15 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 ## 3. 15 秒或者 30 秒视频脚本文字
 ```
 
-这个 skill 面向 SKU 级电商创意，不是泛广告文案工具。
+这个 skill 面向 SKU 级电商内容创意，不是泛广告文案工具。
 
 优先级顺序：
 
 ```text
 商品真相
+> 内容属性
 > 买家决策逻辑
-> DTC 创意镜头
+> DTC 创意角度
 > 视觉风格
 > 脚本文字
 ```
@@ -130,6 +131,123 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 
 不要把行为适配分析作为额外输出段落暴露出来。
 
+## 内容属性层
+
+DTC 内容不能只有镜头，必须先有内容属性。
+
+在内部建立 `Content Attribute Card`，用于决定故事版和脚本。
+
+必须判断：
+
+1. `target_buyer`
+   这条内容说给谁看？不要只写泛泛的 "customers"。
+
+2. `buyer_stage`
+   买家处在哪个阶段？
+   - unaware
+   - problem aware
+   - solution aware
+   - product aware
+   - most aware
+
+3. `content_angle`
+   这条内容的主角度是什么？只能选一个主角度。
+
+4. `hook_type`
+   前 2 秒用什么方式让人继续看？
+
+5. `core_message`
+   这条内容只想让用户记住的一句话是什么？
+
+6. `product_promise`
+   商品能承诺什么？必须有商品证据支持。
+
+7. `reason_to_believe`
+   用户凭什么相信？来自材质、结构、细节、操作、评论、规格、对比或可见结果。
+
+8. `objection`
+   买家可能担心什么？尺寸、质量、使用难度、适配、效果、价格、耐用性、真实性等。
+
+9. `proof_asset`
+   这条内容用什么可见证据消除疑虑？
+
+10. `cta_intent`
+   最后希望用户做什么？了解细节、确认适配、选择款式、加入购物车、查看定制效果等。
+
+这些属性必须影响故事版和脚本。不要只生成漂亮镜头。
+
+默认不要把完整 `Content Attribute Card` 作为独立章节输出；但 `## 2. 故事版` 里的创意大片方向必须体现这些属性。
+
+## DTC 内容角度菜单
+
+`content_angle` 决定这条内容讲什么，不等于镜头风格。
+
+选择一个主角度：
+
+- `problem-solution`
+  从买家真实问题进入，商品作为解决方案。
+
+- `objection handling`
+  专门消除一个购买疑虑，比如尺寸、材质、适配、安装、效果、真实性。
+
+- `feature-to-benefit`
+  从一个可见功能或结构，转译成用户利益。
+
+- `use-case demo`
+  展示一个具体使用场景，不能泛生活方式化。
+
+- `comparison`
+  和旧状态、普通方案、错误用法或不合适选择做对比；不能编造竞品事实。
+
+- `social identity`
+  让用户感觉“这是为我这种人做的”；必须有真实人群或使用语境支持。
+
+- `customization / choice`
+  适合定制、选项、颜色、组合、尺寸、套装、模块化商品。
+
+- `trust proof`
+  用细节、材质、工艺、结构、规格、真实评论或可见结果建立信任。
+
+- `sensory proof`
+  用质地、声音、触感、重量、光泽、液体、食物状态等感官线索证明商品。
+
+- `routine integration`
+  展示商品如何进入日常流程，而不是孤立摆拍。
+
+不要选择证据不支持的内容角度。
+
+## DTC Hook 菜单
+
+`hook_type` 决定前 2 秒怎么进入。
+
+选择一个：
+
+- `visual interruption`
+  用不寻常但真实的画面让人停下。
+
+- `problem recognition`
+  让用户立刻认出自己的问题。
+
+- `specific claim`
+  给出一个可证明、不过度的具体卖点。
+
+- `curiosity gap`
+  展示一个真实细节，让用户想知道原因。
+
+- `before-after contrast`
+  展示可信的前后状态，不编造效果。
+
+- `micro demo`
+  直接展示一个小动作或小结果。
+
+- `detail macro`
+  用商品细节作为开场。
+
+- `choice reveal`
+  展示颜色、款式、定制、配置或套装选择。
+
+Hook 必须和商品证据相关。不要用泛情绪钩子。
+
 ## DTC 创意判断
 
 锁定商品真相后，再内部选择 DTC 创意方向。
@@ -139,22 +257,31 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 1. `shopper_tension`
    买家现在有什么疑虑、欲望、痛点或决策问题？
 
-2. `reason_to_watch`
+2. `content_angle`
+   这条内容用哪个角度说服用户？
+
+3. `hook_type`
+   前 2 秒如何进入？
+
+4. `reason_to_watch`
    为什么这个内容值得做成短视频 / 故事版，而不是只用静态商品图？
 
-3. `creative_lens`
+5. `creative_lens`
    哪种 DTC 创意角度能让商品证明更有记忆点？
 
-4. `product_entrance`
+6. `product_entrance`
    商品如何在第 1 或第 2 格成为明确主角？
 
-5. `visual_device`
+7. `visual_device`
    用什么视觉装置组织 5 格画面？
 
-6. `proof_sequence`
+8. `proof_sequence`
    每一格依次证明哪些商品事实？
 
-7. `creative_safety`
+9. `script_payload`
+   脚本里每一行字幕和旁白分别承担什么内容任务？
+
+10. `creative_safety`
    这个创意有没有添加证据不支持的道具、功效、场景、情绪或人物？
 
 这些判断只影响故事版，不作为默认输出章节。
@@ -237,6 +364,7 @@ DTC 创意只能在商品真相锁定之后进入。
 默认故事版格式：
 
 ```text
+内容属性锁: 一句概括 target_buyer、content_angle、hook_type、core_message、proof_asset
 创意大片方向: 一句简洁的 DTC Creative Film Treatment
 同一拍摄世界锁: 一段紧凑的 Shooting World Lock
 5 格 16:9 连续关键帧: 一张 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面
@@ -244,11 +372,11 @@ DTC 创意只能在商品真相锁定之后进入。
 
 5 格逻辑：
 
-1. 商品进入 / SKU 锚点
-2. 买家疑虑 / 场景设置
+1. Hook / 商品进入 / SKU 锚点
+2. 买家疑虑 / 内容角度建立
 3. 商品证明 / 机制 / 细节
-4. 使用瞬间 / 转变 / payoff
-5. 购买信心 / 最终商品主导状态
+4. 使用瞬间 / 利益点 / 反对点消除
+5. CTA intent / 购买信心 / 最终商品主导状态
 
 至少两格必须证明商品细节。
 
@@ -278,6 +406,16 @@ DTC 创意只能在商品真相锁定之后进入。
 
 脚本必须严格匹配故事版。
 
+脚本每一行必须承担一个内容任务：
+
+```text
+0-2s: hook + product entrance
+2-5s: shopper tension / content angle
+5-8s: product proof / reason to believe
+8-11s: benefit / use case / objection handling
+11-15s: CTA intent / purchase confidence
+```
+
 不要引入：
 
 - 新人物
@@ -294,10 +432,10 @@ DTC 创意只能在商品真相锁定之后进入。
 | 时间 | 画面 | 屏幕字幕 | 旁白 / 口播 |
 |---|---|---|---|
 | 0-2s | ... | Clear product hook | "..." |
-| 2-5s | ... | Show the problem | "..." |
-| 5-8s | ... | See the detail | "..." |
-| 8-11s | ... | Watch it work | "..." |
-| 11-15s | ... | Ready to buy | "..." |
+| 2-5s | ... | Why it matters | "..." |
+| 5-8s | ... | Proof you can see | "..." |
+| 8-11s | ... | Built for this use | "..." |
+| 11-15s | ... | Check the details | "..." |
 ```
 
 所有屏幕字幕和旁白必须是英文。
@@ -308,12 +446,16 @@ DTC 创意只能在商品真相锁定之后进入。
 
 - 是否先展示产品图
 - 商品真相是否保持
+- 是否内部建立了 Content Attribute Card
+- target_buyer、buyer_stage、content_angle、hook_type、core_message 是否清楚
 - 是否内部选择了 DTC creative lens
 - buyer event 是否有商品证据支持
 - 商品是否在第 1 或第 2 格明确成为主角
 - 商品是否持续可见、可检查
 - 至少两格是否证明商品细节
 - 至少两格是否承载创意镜头
+- 每一格是否有内容任务，而不是只负责好看
+- 脚本是否包含 hook、tension、proof、benefit、CTA intent
 - 是否没有添加不支持的声明或场景
 - 故事版是否像一个连续的 DTC 商品创意，而不是五张随机图
 - 脚本是否匹配故事版
