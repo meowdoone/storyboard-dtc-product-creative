@@ -1,6 +1,6 @@
 ---
 name: storyboard-dtc-product-creative
-description: Use when a user wants a SKU-level DTC product creative storyboard from a product link, Amazon/Shopify/TikTok Shop URL, product image, product screenshot, ecommerce page, ASIN, SKU brief, or short product description. The required output format is exactly product image first, then storyboard, then 15-second or 30-second video script text. Product truth is the hard gate; DTC creative lens is allowed only after product identity, function, material, scale, claims, and use logic are locked.
+description: Use when a user wants a SKU-level DTC product creative storyboard from a product link, Amazon/Shopify/TikTok Shop URL, product image, product screenshot, ecommerce page, ASIN, SKU brief, or short product description. The required output format is exactly product image first, then a generated storyboard image/contact sheet, then 15-second or 30-second video script text. Product truth is the hard gate; DTC creative lens is allowed only after product identity, function, material, scale, claims, and use logic are locked.
 ---
 
 # DTC 商品创意故事版 Skill
@@ -70,6 +70,10 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 
 不要默认输出 JSON、长分析、negative prompt、平台报告、DTC 理论、竞品分析或额外章节。
 
+`## 2. 故事版` 必须输出真实图片：一张 5 格 16:9 storyboard / contact-sheet 图。不能只输出文字分镜、表格、prompt 或镜头描述。
+
+如果当前环境不能生成或嵌入图片，停止并说明缺少图片生成能力；不要用文字故事版代替。
+
 第三段脚本必须是英文。表格里的 `屏幕字幕` 和 `旁白 / 口播` 必须是自然英文。
 
 ## 执行流程
@@ -114,12 +118,14 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - `product_entrance` 发生在第 1 或第 2 格。
 - `visual_device` 能组织 5 格画面。
 
-### 4. 5 格故事版映射
+### 4. 5 格故事版图片生成
 
-把内容策略映射到 5 格 16:9 画面。
+把内容策略映射并生成成一张 5 格 16:9 storyboard / contact-sheet 图片。
 
 完成标准：
 
+- `## 2. 故事版` 下方已经嵌入实际图片。
+- 图片是一张横向 5 格 contact sheet，不是 5 条文字。
 - 每一格有一个内容任务。
 - 每一格都保持商品真相。
 - 至少两格证明商品细节。
@@ -143,6 +149,7 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 完成标准：
 
 - 默认输出仍然只有三段。
+- 第二段已经输出真实故事版图片。
 - 内容属性、创意镜头、脚本和故事版互相一致。
 - 商品真相优先级高于所有创意表达。
 
@@ -494,7 +501,19 @@ DTC 创意只能在商品真相锁定之后进入。
 
 ## 故事版规则
 
-故事版必须：
+故事版必须是一张图片。
+
+必须调用可用的图片生成或图片编辑能力，生成一张 5 格 16:9 storyboard / contact-sheet 图，并把图片嵌入 `## 2. 故事版`。
+
+不允许把下面任何内容当作故事版交付：
+
+- 文字分镜表
+- 纯 prompt
+- 纯镜头说明
+- 只有 shot list，没有图片
+- 只有素材建议，没有图片
+
+图片故事版必须：
 
 - 商品主导
 - 有 DTC 创意，但必须基于证据
@@ -510,8 +529,10 @@ DTC 创意只能在商品真相锁定之后进入。
 内容属性锁: 一句概括 target_buyer、content_angle、hook_type、core_message、proof_asset
 创意大片方向: 一句简洁的 DTC Creative Film Treatment
 同一拍摄世界锁: 一段紧凑的 Shooting World Lock
-5 格 16:9 连续关键帧: 一张 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面；每格必须有内容任务
+5 格 16:9 连续关键帧图片: 这里必须嵌入一张实际生成的 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面；每格必须有内容任务
 ```
+
+默认不把每格画面写成表格。每格任务应该进入图片生成指令和最终图片，而不是作为文字故事版替代图片。
 
 5 格逻辑：
 
@@ -595,6 +616,8 @@ DTC 创意只能在商品真相锁定之后进入。
 回复前检查：
 
 - 是否先展示产品图
+- `## 2. 故事版` 是否已经嵌入真实图片
+- 是否没有用文字分镜、表格或 prompt 替代故事版图片
 - 商品真相是否保持
 - 是否内部建立了 Content Attribute Card
 - target_buyer、buyer_stage、content_angle、hook_type、core_message 是否清楚

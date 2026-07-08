@@ -23,6 +23,10 @@
 ## 3. 15 秒或者 30 秒视频脚本文字
 ```
 
+其中 `## 2. 故事版` 必须是图片：一张 5 格 16:9 storyboard / contact-sheet 图。
+
+不能只给文字分镜、表格、prompt 或镜头说明。
+
 ## 核心原则
 
 商品最重要。
@@ -58,7 +62,7 @@ cta_intent
 1. 证据锁定
 2. 建立 Content Attribute Card
 3. 选择内容策略
-4. 映射到 5 格 16:9 故事版
+4. 生成 5 格 16:9 故事版图片
 5. 写 15 秒或 30 秒英文脚本
 6. 交付前 QA
 ```
@@ -72,6 +76,8 @@ content_angle -> hook_type -> creative_lens -> proof_asset -> CTA intent
 每一格故事版都必须有内容任务，不允许只负责好看。
 
 第 1 格要同时承担 hook 和商品进入；第 5 格要增强购买信心，而不是只做漂亮收尾。
+
+故事版交付必须是图片。如果当前环境不能生成或嵌入图片，应该停止并说明缺少图片生成能力，不用文字故事版替代。
 
 ## DTC content angle
 
@@ -107,15 +113,15 @@ content_angle -> hook_type -> creative_lens -> proof_asset -> CTA intent
 ## 使用示例
 
 ```text
-用 storyboard-dtc-product-creative，基于这个商品链接输出产品图、DTC 商品创意故事版、15 秒英文脚本。商品必须保持真实，创意不能改变商品。
+用 storyboard-dtc-product-creative，基于这个商品链接输出产品图、DTC 商品创意故事版图片、15 秒英文脚本。商品必须保持真实，创意不能改变商品。
 ```
 
 ```text
-用这个产品图做 DTC 商品创意故事版。产品为主，先锁商品真相，再选择一个 DTC creative lens，输出 5 格 16:9 连续关键帧和英文脚本。
+用这个产品图做 DTC 商品创意故事版图片。产品为主，先锁商品真相，再选择一个 DTC creative lens，输出一张 5 格 16:9 连续关键帧图片和英文脚本。
 ```
 
 ```text
-用这个商品做 DTC 内容创意，重点不是漂亮图，而是先明确 target_buyer、content_angle、hook_type、proof_asset 和 CTA intent，再输出故事版和英文脚本。
+用这个商品做 DTC 内容创意，重点不是漂亮图，而是先明确 target_buyer、content_angle、hook_type、proof_asset 和 CTA intent，再输出故事版图片和英文脚本。
 ```
 
 ## 不做什么
