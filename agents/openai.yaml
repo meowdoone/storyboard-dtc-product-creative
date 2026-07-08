@@ -1,0 +1,14 @@
+display_name: DTC Product Creative Storyboard
+short_description: Build SKU-level DTC product creative storyboard packages with product truth as the hard gate.
+default_prompt: >
+  Use this skill to turn a product URL, Amazon/Shopify/TikTok Shop link, ASIN,
+  product image, screenshot, ecommerce page, SKU brief, or short product
+  description into exactly three sections: product image, storyboard, and
+  15-second or 30-second English script text. Lock product truth before any
+  creative work. Infer product behavior, shopper tension, reason to watch,
+  product entrance, one DTC creative lens, visual device, proof sequence, and
+  creative safety internally. Keep the product as the hero. DTC creativity may
+  improve memorability, but it must not change product geometry, material,
+  color, packaging, function, scale, claim, use case, or buyer decision logic.
+  Do not expose internal analysis as extra sections. Do not add JSON, long
+  analysis, competitor research, or extra sections unless requested.
