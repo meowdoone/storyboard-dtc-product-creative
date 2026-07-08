@@ -2,113 +2,136 @@
 
 ## 目标
 
-明确实时采集、授权采集和用户提供素材在 skill 中如何使用。
+把广告参考变成可追溯的创意结构，不把外部素材当成可随意复制的资产库。
 
-## 可使用来源
+## Source Types
 
 ```yaml
 source_types:
   public:
-    - public ad libraries
-    - search results
-    - public brand sites
-    - public social pages
-    - public landing pages
+    description: publicly reachable pages or ad libraries
+    default_capture:
+      - source_url
+      - page_title
+      - public summary
+      - allowed screenshot or keyframe when access and platform rules permit
+      - structured ad_reference decomposition
+    restricted_capture:
+      - original video files
+      - full ad downloads
+      - private brand assets
+      - gated creative-library assets
+
   authorized:
-    - user logged-in accounts
-    - user-owned ad accounts
-    - user-paid creative libraries
-    - private links provided by user
-    - user-owned asset libraries
+    description: user-owned, user-paid, logged-in, or explicitly permitted source
+    allowed_capture:
+      - source_url
+      - screenshots
+      - keyframes
+      - original files when the user has rights to use them
+      - transcripts or scripts when accessible
+      - brand assets when user-owned or authorized
+
   user_provided:
-    - uploaded videos
-    - screenshots
-    - downloaded ad files
-    - scripts
-    - brand references
-    - competitor lists
+    description: files, links, screenshots, scripts, competitor lists, or examples supplied by the user
+    allowed_capture:
+      - uploaded files
+      - screenshots
+      - downloaded files supplied by the user
+      - scripts
+      - notes
+      - reference URLs
+
+  local_file:
+    description: local workspace files already available for this run
+    allowed_capture:
+      - local path
+      - file metadata
+      - derived keyframes or screenshots when relevant
+
+  fallback:
+    description: source access failed, so a lower-fidelity reference was used
+    allowed_capture:
+      - attempted_source_url
+      - fallback_type
+      - fallback_source_url
+      - reason
 ```
 
-## 可复制、采集并保存的内容
+## Public-Source Rule
 
-- 广告原片
-- 原视频文件
-- 视频片段
-- 截图
-- 缩略图
-- 关键帧
-- 脚本
-- 字幕
-- 口播
-- 品牌资产
-- landing page 画面
-- 画面片段
-- 镜头运动
-- 人物动作
-- 商品动作
-- hook 文字
-- CTA 文案
-- 产品展示片段
-- source_url
+For public sources, default to structural learning:
 
-## 使用方式
+- Keep the URL.
+- Summarize the visible page or ad.
+- Capture screenshots or keyframes only when the platform surface allows access and the result is needed for decomposition.
+- Convert the reference into `ad_reference`.
+- Use scene, hook, pacing, product-proof mechanic, and camera logic as inspiration.
 
-采集内容进入 `DTC Creative Reference Pack`，用于：
+Do not store public original videos, full ad files, private brand assets, or gated assets unless the source is reclassified as `authorized` or `user_provided`.
 
-- 参考追溯
-- 广告拆解
-- 创意结构提取
-- 场景库匹配
-- 运动库匹配
-- 模特库匹配
-- 镜头库匹配
-- 剧本结构参考
-- 横屏故事版图片生成
-- 视频 demo 脚本生成
+## Authorized And User-Provided Rule
 
-## 私域和登录来源
+Authorized and user-provided sources may be saved more fully, but the run must record why the source is allowed:
 
-用户授权或用户账号可访问的私域内容可以作为 `authorized` 来源采集。
+```yaml
+permission_basis:
+  source_type:
+  user_supplied: true | false
+  user_owned_or_authorized: true | false
+  notes:
+```
 
-包括：
+## Source Record
 
-- 用户登录状态下的广告库
-- 用户自己的广告账号后台
-- 用户购买的创意库
-- 用户自己的素材库
-- 用户提供的私域参考页面
-- 用户提供的私密链接
-
-这类来源必须记录 `source_type: authorized`，并保留 `source_url` 或本地素材路径。
-
-## 记录要求
-
-每条参考必须记录：
+Every reference, including failed attempts, must create a source record:
 
 ```yaml
 source_record:
   source_url:
-  source_type:
+  source_type: public | authorized | user_provided | local_file | fallback
+  allowed_capture:
   captured_assets:
   local_paths:
   capture_time:
+  permission_basis:
   notes:
 ```
 
-## 平台阻挡降级
+## Use Boundaries
 
-平台阻挡、登录失效、页面不可访问或素材无法下载时，按顺序降级：
+Captured references may be used for:
+
+- ad structure decomposition
+- scene and camera selection
+- model or hand-presence strategy
+- motion chain selection
+- hook and CTA pattern selection
+- storyboard prompt structure
+- English script pacing
+
+Captured references must not be used to:
+
+- replace the current SKU's Product Truth Card
+- copy a competitor product design
+- copy a brand logo, artwork, or protected character
+- invent claims, certifications, UI, reviews, or badges
+- imply authorization that was not recorded
+
+## Fallback Order
+
+When a source is blocked, inaccessible, login-gated, or unsafe to capture:
 
 ```text
-平台页面
--> 搜索结果摘要
--> 手动链接
--> 用户提供参考广告
--> 用户上传素材
--> 内置参考库
+platform page
+-> search result summary
+-> manual link supplied by user
+-> user-provided reference
+-> uploaded asset
+-> built-in reference libraries
 ```
 
-降级后仍然要记录来源：
+Record the fallback:
 
 ```yaml
 fallback_record:

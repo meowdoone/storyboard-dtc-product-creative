@@ -1,54 +1,21 @@
 display_name: DTC Product Creative Storyboard
-short_description: Build SKU-level DTC storyboards from product truth plus live ad reference collection.
+short_description: Build SKU-level DTC storyboards through Product Truth, DTC Creative Director, Reference Pack, Storyboard Design Expert, and local QA.
 default_prompt: >
-  Use this skill to turn a product URL, Amazon/Shopify/TikTok Shop link, ASIN,
-  product image, screenshot, ecommerce page, SKU brief, or short product
-  description into exactly three sections: product image, generated horizontal
-  storyboard image/contact sheet, and 15-second or 30-second English script
-  text. Section 2 must contain an actual image: one horizontal five-panel 16:9
-  storyboard/contact sheet for landscape video planning. Do not make portrait,
-  square, or vertically stacked storyboards. Every panel must be a landscape
-  16:9 frame. Do not substitute a text storyboard, shot list, table, or prompt
-  for the image. If image generation or image embedding is unavailable, stop
-  and state that the image capability is missing. Lock product truth before any
-  creative work. Before storyboard generation, act as a Live DTC Creative
-  Intelligence Director: analyze the product, build a live crawl plan, collect
-  public, user-authorized, or user-provided DTC ad references, copy/capture
-  accessible original videos, screenshots, keyframes, scripts, subtitles, brand
-  assets, landing page frames, hook/CTA copy, product-showing fragments, model
-  frames, action fragments, and camera fragments into a reference pack, and
-  preserve source_url or local asset paths for every reference. If a platform
-  blocks access, degrade to search-result evidence, manual links, user-provided
-  references, user-uploaded materials, then the built-in reference libraries.
-  Decompose each reference into ad_reference fields: source, platform, brand,
-  category, format, aspect ratio, duration, original assets, hook, scene, model,
-  human action, product action, camera motion, pacing, visual fragment logic,
-  proof mechanic, CTA, and script structure. Build an internal DTC Creative
-  Reference Pack with product_truth_lock, selected_ad_references,
-  selected_creative_patterns, selected_scene_refs, selected_model_refs,
-  selected_motion_refs, selected_camera_refs, selected_script_patterns,
-  picture_fragment_refs, source_urls, rejected_references, and adaptation_reason.
-  Build an internal Content Attribute Card with target buyer, buyer stage,
-  content angle, hook type, core message, product promise, reason to believe,
-  objection, proof asset, and CTA intent. Follow the nine-step workflow:
-  evidence lock, live ad reference collection, ad decomposition, content
-  attribute card, Reference Pack selection, content strategy selection,
-  horizontal five-panel storyboard image generation, English video-demo script,
-  and final QA. Infer product behavior, shopper tension, buyer event, reason to
-  watch, product entrance, one DTC creative lens, visual device, proof sequence,
-  script payload, and creative safety internally. Select scene_ref, model_ref,
-  motion_ref, and camera_ref from live references or the built-in libraries.
-  Map content_angle -> hook_type -> creative_lens -> proof_asset -> CTA intent.
-  Each image panel must have a content task, not just a visual style. Panel 1
-  must work as the hook and product entrance; panel 5 must increase purchase
-  confidence. The image must look like realistic DTC product photography from
-  one continuous shoot: same product instance, same lighting direction, same
-  background, coherent action from panel to panel, real shadows, readable
-  material texture, and no AI-looking glossy/plastic surfaces. The English
-  script table must include Camera / Motion and Reference Logic columns, and
-  those fields must be natural English.
-  Keep the product as the hero. DTC creativity may improve memorability, but it
-  must not change product geometry, material, color, packaging, function, scale,
-  claim, use case, or buyer decision logic. Do not expose internal analysis as
-  extra sections. Do not add JSON, long analysis, competitor research, or extra
-  sections unless requested.
+  Use this skill for SKU-level DTC product storyboard work from a product URL,
+  ASIN, product image, screenshot, ecommerce page, or SKU brief. First build a
+  Product Truth Card with source_evidence, locked_terms, forbid_mutations, and
+  allowed_claims. Collect only compliant public, authorized, user-provided,
+  local, or fallback references, and decompose each selected reference into
+  ad_reference records. Before image generation, run DTC Creative Director.
+  Select exactly one main creative_type, then select scene_ref, motion_chain,
+  model_ref, camera_plan, script_pattern, and picture_fragment_logic. Output an
+  internal DTC Creative Reference Pack. Then run Storyboard Design Expert, using
+  only that pack as the creative input. Generate one actual horizontal
+  five-panel 16:9 storyboard/contact-sheet image. Every panel must be a
+  video-ready keyframe, and panel 3 must be the strongest product proof. The
+  user-facing output remains exactly three sections: product image, storyboard
+  image, and a 15-second or 30-second English script. The English script must
+  include Camera / Motion and Reference Logic. Save run.json,
+  source_records.json, and qa.json when filesystem access is available. Run
+  scripts/validate_storyboard.py for local outputs. Stop instead of returning a
+  text-only storyboard if image generation or image embedding is unavailable.

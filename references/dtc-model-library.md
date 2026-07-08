@@ -1,42 +1,49 @@
-# DTC 模特 / 人物库
+# DTC Model / Human Presence Library
 
-## 用途
+## Purpose
 
-决定广告参考里的人物策略如何进入故事版。
+`model_ref` decides whether a human, hand, body crop, founder, expert, or no-human strategy enters the storyboard.
 
-人物不是必须出现。人物出现时必须服务商品证明。
+Human presence is optional. It must serve product proof.
 
-## Model Strategies
+## Schema
 
-| model_id | 适用场景 | 出镜方式 | 注意点 |
-|---|---|---|---|
-| no-human-product-macro | 材质、结构、包装、工艺 | 无人物 | 商品必须足够可读 |
-| hand-only | 大多数商品 demo | 手部 | 手型、肤色、指甲、动作要连续 |
-| ugc-creator | 需要信任和解释 | 半身/近景/手持 | 不要让脸抢商品 |
-| founder | 品牌故事、理念、研发原因 | 口播或手持 | 商品必须同框 |
-| shopper | 选择、比较、试用 | 手部/身体局部 | 表现购买判断 |
-| expert | 功能、专业、技术类商品 | 专家手部/半身 | 不虚构资质 |
-| couple | 礼物、家居、共享场景 | 两人互动 | 商品不能变配角 |
-| parent | 母婴、家庭、教育 | 手部/生活场景 | 不编造儿童安全声明 |
-| athlete | 运动、恢复、穿戴 | 动作身体局部 | 动作要物理合理 |
-| office-worker | 办公、数码、效率 | 桌面/手部/半身 | 不做假软件 UI |
-| home-user | 家居、厨房、清洁 | 生活化手部/半身 | 场景不能杂乱 |
+```yaml
+model_ref:
+  id:
+  best_for:
+  presence_type:
+  role:
+  visibility:
+  wardrobe:
+  hands:
+  face:
+  body_language:
+  continuity_lock:
+  when_to_use:
+  when_not_to_use:
+  risk:
+```
 
-## Continuity Lock
+## Model Entries
 
-有人物或手部出现时，5 格必须保持：
+| id | best_for | presence_type | role | visibility | wardrobe | hands | face | body_language | continuity_lock | when_to_use | when_not_to_use | risk |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| no-human-product-macro | detail, structure, material, packaging strong enough | no-human | none | product only | none | none | none | none | product, light, background continuous | product explains value alone | human use is required | lacks use context |
+| hand-only | most SKU demos, unbox, use, touch, size | partial-human | user hands | hands only | neutral sleeves if visible | clean natural hands, consistent tone/nails | not visible | precise, product-first | same hand type, skin tone, action direction | action proof needed without identity | identity/emotion/voice trust needed | hands hide product |
+| ugc-creator | real use, explanation, trust | human | creator / everyday user | face optional, upper body or hands | simple casual, non-branded | natural demo gestures | friendly but not over-modeled | direct, practical | same person, outfit, scene | viewer needs to see real user | product details more important | face steals product |
+| founder | brand reason, maker logic, design rationale | human | founder / maker | upper body + product | simple credible wardrobe | holding/pointing to product | calm credible | explains product, not performing | product always in frame | real brand/founder context exists | no founder material | empty brand film |
+| shopper | choice, comparison, trial, buying judgement | human / partial-human | buyer deciding | hands, torso, over-shoulder | everyday neutral | compares, picks, checks | usually not needed | evaluating | action or gaze around product choice | options/fit/color/size concern exists | no buying decision scene | generic shopping |
+| expert | technical, care, tool, functional products | human | expert user | hands / upper body | category-appropriate, no fake credential | careful demonstration | optional | precise and calm | no fake certification, product visible | professional action is evidenced | no expert context | fake expert feel |
+| couple | gift, home, shared context | human group | two users | hands / partial bodies | coordinated neutral | passing, unboxing, using together | optional | restrained, product-focused | same two people across panels | gift/shared use matters | single user proves enough | emotion steals product |
+| parent | family, child-related, caregiver products | human | parent / caregiver | hands / partial body | home casual | careful handling | optional | protective, practical | no unsupported safety/effect claims | evidence supports family use | product unrelated to family | invented safety claim |
+| athlete | sport, outdoor, wearable, gym goods | human | active user | partial body / hands / gear use | sport neutral | grip, wear, pack, adjust | not needed | active but controlled | product visible, not buried by movement | real sport/outdoor use | product cannot support sport context | performance exaggeration |
+| office-worker | office, desk, digital, productivity tool | human / partial-human | office user | hands, torso, over-desk | neutral workwear | type, plug, organize, place | not needed | focused | desk, hands, device relationship stable | product enters work flow | product unrelated to office | generic office mood |
+| home-user | home, daily use, storage, cleaning, household | human / partial-human | everyday home user | hands / partial body | casual neutral | use, place, clean, open | optional | natural | same home scene and light | household routine matters | professional/outdoor scene fits better | lifestyle without proof |
 
-- 同一人物设定
-- 同一手型
-- 同一肤色
-- 同一服装风格
-- 同一动作逻辑
-- 同一商品关系
+## Selection Rules
 
-## 选择规则
-
-- 商品能靠本体证明时，优先 `no-human-product-macro` 或 `hand-only`。
-- 商品需要真实使用关系时，选择 `UGC creator`、`shopper` 或 `home-user`。
-- 商品需要专业可信度时，选择 `expert`。
-- 商品是礼物或关系场景时，选择 `couple`、`parent` 或 `hand-pass`。
-
+- Prefer `no-human-product-macro` or `hand-only` when product proof does not require identity.
+- Use faces only when identity or trust is needed and evidence supports it.
+- For custom apparel, prefer faceless torso or cropped wearer unless the user provides model direction.
+- Model strategy must not steal attention from product or hide panel 3 proof.
