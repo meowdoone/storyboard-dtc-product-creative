@@ -1,6 +1,6 @@
 ---
 name: storyboard-dtc-product-creative
-description: Use when a user wants a SKU-level DTC product creative storyboard from a product link, Amazon/Shopify/TikTok Shop URL, product image, product screenshot, ecommerce page, ASIN, SKU brief, or short product description. The required output format is exactly product image first, then a generated horizontal storyboard image/contact sheet, then 15-second or 30-second video script text. Product truth is the hard gate; DTC creative lens is allowed only after product identity, function, material, scale, claims, and use logic are locked.
+description: Use when a user wants a SKU-level DTC product creative storyboard from a product link, Amazon/Shopify/TikTok Shop URL, product image, product screenshot, ecommerce page, ASIN, SKU brief, or short product description. The required output format is exactly product image first, then a generated horizontal storyboard image/contact sheet, then 15-second or 30-second video script text. Product truth is the hard gate. Before storyboard generation, run live DTC ad reference collection from public, authorized, or user-provided sources, decompose references into scene/model/motion/camera/script patterns, and build a DTC Creative Reference Pack.
 ---
 
 # DTC 商品创意故事版 Skill
@@ -8,6 +8,17 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 ## 目标
 
 把一个真实商品转成 DTC 风格的商品主导创意故事版。
+
+这个 skill 包含两个内部角色：
+
+```text
+Live DTC Creative Intelligence Director
+Storyboard Design Expert
+```
+
+`Live DTC Creative Intelligence Director` 负责实时采集和拆解全球 DTC 广告参考，建立场景、人物、运动、镜头、剧本和画面片段参考。
+
+`Storyboard Design Expert` 负责基于商品真相和参考包生成横屏 5 格故事版图片，并输出可继续做视频 demo 的英文脚本。
 
 默认只输出三段：
 
@@ -24,8 +35,11 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 ```text
 商品真相
 > 内容属性
+> 实时广告参考
+> 创意参考包
 > 买家决策逻辑
 > DTC 创意角度
+> 场景 / 模特 / 运动 / 镜头库
 > 视觉风格
 > 脚本文字
 ```
@@ -76,11 +90,11 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 
 如果当前环境不能生成或嵌入图片，停止并说明缺少图片生成能力；不要用文字故事版代替。
 
-第三段脚本必须是英文。表格里的 `屏幕字幕` 和 `旁白 / 口播` 必须是自然英文。
+第三段脚本必须是英文。表格里的 `屏幕字幕`、`旁白 / 口播`、`Camera / Motion` 和 `Reference Logic` 必须是自然英文。
 
 ## 执行流程
 
-每次运行都按 6 步走，不要跳步。
+每次运行都按 9 步走，不要跳步。
 
 ### 1. 证据锁定
 
@@ -93,7 +107,32 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - 能指出哪些功能、结果或声明没有证据，不能写。
 - 如果证据不足，停止，不进入故事版。
 
-### 2. 内容属性卡
+### 2. 实时广告参考采集
+
+根据商品真相建立 live crawl plan，并实时采集 DTC 广告参考。
+
+完成标准：
+
+- 已生成商品相关关键词、竞品关键词、相邻品类关键词和平台关键词。
+- 已搜索公开来源、授权来源或用户提供来源。
+- 已保存可追溯 `source_url`。
+- 已采集可访问的广告原片、截图、缩略图、脚本、字幕、品牌资产、画面片段或页面素材。
+- 平台阻挡时已降级到搜索结果、手动链接、用户给参考广告或用户上传素材。
+- 没有采集到有效参考时，明确标记为 `reference_sparse`，并只使用内置库。
+
+### 3. 广告拆解
+
+把采集到的参考广告拆成结构化 `ad_reference`。
+
+完成标准：
+
+- 每条参考都提取 `source_url`、平台、品牌、品类、格式、画幅、时长。
+- 每条参考都提取 hook、场景、人物 / 模特、商品动作、人物动作、镜头运动、节奏、画面片段、证明机制、CTA 和剧本结构。
+- 每条参考都标记哪些元素可用于当前 SKU。
+- 每条参考都标记哪些元素不能用于当前 SKU。
+- 已按 `references/ad-reference-analysis-schema.md` 输出内部结构。
+
+### 4. 内容属性卡
 
 建立内部 `Content Attribute Card`。
 
@@ -108,9 +147,26 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - `objection` 和 `proof_asset` 对应。
 - `cta_intent` 是买家下一步动作，不是空泛 slogan。
 
-### 3. 内容策略选择
+### 5. Reference Pack 选择
 
-把内容属性转成一个可拍的内容策略。
+把商品真相、内容属性和广告拆解结果转成 `DTC Creative Reference Pack`。
+
+完成标准：
+
+- 已选择 `selected_ad_references`。
+- 已选择 `selected_creative_patterns`。
+- 已选择 `selected_scene_refs`。
+- 已选择 `selected_model_refs`。
+- 已选择 `selected_motion_refs`。
+- 已选择 `selected_camera_refs`。
+- 已选择 `selected_script_patterns`。
+- 已记录 `source_urls`。
+- 已列出 `rejected_references` 和拒绝原因。
+- 已说明参考如何服务当前 SKU，而不是照搬参考广告。
+
+### 6. 内容策略选择
+
+把 Reference Pack 转成一个可拍、可出图、可做视频 demo 的内容策略。
 
 完成标准：
 
@@ -119,8 +175,12 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - `creative_lens` 服务内容角度，不只是视觉风格。
 - `product_entrance` 发生在第 1 或第 2 格。
 - `visual_device` 能组织 5 格画面。
+- `scene_anchor` 来自场景库或实时参考。
+- `model_strategy` 来自模特库或实时参考。
+- `motion_chain` 来自运动库或实时参考。
+- `camera_plan` 来自镜头库或实时参考。
 
-### 4. 横屏故事版图片生成
+### 7. 横屏故事版图片生成
 
 把内容策略映射并生成成一张横屏 5 格 16:9 storyboard / contact-sheet 图片。
 
@@ -133,21 +193,24 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - 每一格有一个内容任务。
 - 每一格都保持商品真相。
 - 每一格像同一次真实拍摄里的连续镜头。
+- 每一格体现已选场景、人物 / 模特、动作、镜头或画面片段参考。
 - 至少两格证明商品细节。
 - 至少两格承载内容角度或 creative lens。
 - 第 5 格增强购买信心，而不是只做漂亮收尾。
 
-### 5. 英文脚本
+### 8. 视频 demo 英文脚本
 
 写 15 秒或 30 秒英文脚本。
 
 完成标准：
 
 - 每行字幕和旁白都服务对应内容任务。
+- 每行包含 `Camera / Motion`。
+- 每行包含 `Reference Logic`。
 - 不用旁白补救画面没有证明的内容。
 - 不添加故事版没有的新利益点、新场景或新 CTA。
 
-### 6. 交付前 QA
+### 9. 交付前 QA
 
 按 `交付前检查` 逐项检查。
 
@@ -155,6 +218,8 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 
 - 默认输出仍然只有三段。
 - 第二段已经输出真实故事版图片。
+- 已形成并使用 `DTC Creative Reference Pack`。
+- 已保存 `source_url`。
 - 内容属性、创意镜头、脚本和故事版互相一致。
 - 商品真相优先级高于所有创意表达。
 
@@ -190,6 +255,313 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - 假认证
 - 假评论
 - 假 Amazon / Shopify / TikTok UI
+
+## 实时广告参考采集
+
+给到商品后，必须先分析商品，再实时查找广告参考。
+
+先建立 `Live Crawl Plan`：
+
+```yaml
+live_crawl_plan:
+  product_category:
+  product_behavior:
+  buyer_problem:
+  main_benefit:
+  proof_type:
+  competitor_keywords:
+  adjacent_category_keywords:
+  platform_keywords:
+  region_keywords:
+  source_priority:
+```
+
+采集来源分三类：
+
+1. `public`
+   公开可访问来源，包括 Meta Ad Library、TikTok Creative Center、Google Ads Transparency Center、YouTube、品牌官网、公开 landing page、公开社媒广告页、公开广告案例库、搜索结果页。
+
+2. `authorized`
+   用户授权或用户账号可访问来源，包括用户登录状态下的广告库、用户购买的创意库、用户自己的素材库、用户提供的广告账号后台、用户提供的私域参考页面。
+
+3. `user_provided`
+   用户上传或直接提供的广告视频、截图、链接、品牌案例、竞品清单、已下载素材、脚本或参考图。
+
+可采集并保存：
+
+- `source_url`
+- 原片 / 视频文件
+- 截图 / 缩略图
+- 关键画面帧
+- 脚本文字 / 口播 / 字幕
+- 品牌资产
+- landing page 画面
+- hook 文字
+- CTA 文案
+- 评论或社媒上下文
+- 产品展示片段
+- 模特 / 人物画面
+- 动作和镜头片段
+
+采集失败或平台阻挡时，按顺序降级：
+
+```text
+平台页面
+-> 搜索结果摘要
+-> 手动链接
+-> 用户提供参考广告
+-> 用户上传素材
+-> 内置参考库
+```
+
+每条参考必须保留 `source_url` 或本地素材路径，方便追溯。
+
+## 广告参考拆解
+
+采集到的广告参考必须先拆解，再用于创意。
+
+内部使用 `ad_reference`：
+
+```yaml
+ad_reference:
+  source_url:
+  source_type:
+  platform:
+  brand:
+  category:
+  product_type:
+  region:
+  language:
+  format:
+  aspect_ratio:
+  duration:
+  original_assets:
+    video:
+    screenshots:
+    keyframes:
+    transcript:
+    brand_assets:
+  hook:
+    first_3_seconds:
+    hook_type:
+    visual_interruption:
+    opening_frame:
+  scene:
+    location:
+    surface:
+    lighting:
+    props:
+    realism_level:
+    scene_transition:
+  model:
+    presence_type:
+    role:
+    wardrobe:
+    hand_or_body_visibility:
+    expression:
+    continuity_notes:
+  motion:
+    human_action:
+    product_action:
+    camera_motion:
+    transition:
+    pacing:
+    reusable_clip_logic:
+  proof:
+    proof_mechanic:
+    product_detail_shown:
+    objection_answered:
+    visual_evidence:
+  script:
+    spoken_line_pattern:
+    subtitle_pattern:
+    CTA:
+    pacing_structure:
+  reusable_pattern:
+    what_to_borrow:
+    picture_fragment_logic:
+    scene_logic:
+    action_logic:
+    camera_logic:
+    script_logic:
+    what_not_to_copy:
+```
+
+拆解重点：
+
+- 提取结构
+- 提取场景
+- 提取动作
+- 提取镜头
+- 提取节奏
+- 提取画面片段逻辑
+- 提取剧本结构
+- 提取人物 / 模特出镜策略
+- 提取商品证明方式
+
+## DTC Creative Reference Pack
+
+生成故事版图片前，必须形成内部 `DTC Creative Reference Pack`。
+
+```yaml
+dtc_creative_reference_pack:
+  product_truth_lock:
+  selected_ad_references:
+  selected_creative_patterns:
+  selected_scene_refs:
+  selected_model_refs:
+  selected_motion_refs:
+  selected_camera_refs:
+  selected_script_patterns:
+  picture_fragment_refs:
+  source_urls:
+  rejected_references:
+  adaptation_reason:
+```
+
+Reference Pack 必须回答：
+
+- 当前 SKU 借鉴哪些广告结构？
+- 当前 SKU 使用哪个场景系统？
+- 当前 SKU 是否需要模特、手部、真人、专家或无人物？
+- 商品和人物分别怎么动？
+- 镜头如何移动？
+- 哪些画面片段逻辑可以用于横屏故事版？
+- 哪个剧本结构适合 15 秒或 30 秒 demo？
+- 哪些参考不适合当前商品？
+
+不要把完整 Reference Pack 默认暴露给用户。它是内部导演判断，用于生成 `## 2. 故事版` 和 `## 3. 15 秒或者 30 秒视频脚本文字`。
+
+## 创意库调用
+
+实时参考优先，内置库兜底。
+
+相关参考文件：
+
+- `references/live-crawl-strategy.md`
+- `references/ad-reference-analysis-schema.md`
+- `references/dtc-creative-pattern-library.md`
+- `references/dtc-scene-library.md`
+- `references/dtc-motion-library.md`
+- `references/dtc-model-library.md`
+- `references/camera-language-library.md`
+- `references/source-compliance-policy.md`
+
+### 场景库
+
+`scene_ref` 决定商品在哪个真实空间被证明。
+
+必须选择一个主场景：
+
+- bathroom counter
+- kitchen prep
+- desk setup
+- gym locker
+- travel packing
+- bedside routine
+- car interior
+- gifting table
+- unboxing table
+- outdoor use
+- studio tabletop
+- no-human product macro
+
+选择场景时必须判断：
+
+- 商品是否真的会在这个场景出现。
+- 场景是否帮助买家理解商品。
+- 道具是否会抢商品。
+- 场景是否能承载已选 `proof_asset`。
+- 场景是否能做成横屏 16:9。
+
+### 模特 / 人物库
+
+`model_ref` 决定谁出镜，以及出镜程度。
+
+可选策略：
+
+- no-human product macro
+- hand-only
+- UGC creator
+- founder
+- shopper
+- expert
+- couple
+- parent
+- athlete
+- office worker
+- home user
+
+选择人物时必须判断：
+
+- 人物是否服务商品证明。
+- 是否只需要手部就够。
+- 人物是否会抢商品。
+- 人物服装、手型、肤色、姿态是否能跨 5 格保持一致。
+- 商品是否需要真人使用关系才能被理解。
+
+### 运动库
+
+`motion_ref` 决定商品、人物和镜头如何动。
+
+可选动作：
+
+- pick up
+- unbox
+- align
+- apply
+- pour
+- tap
+- plug in
+- wear
+- unfold
+- fold
+- hang
+- compare
+- wipe
+- rotate
+- reveal
+- pack
+- hand pass
+- texture touch
+- close-open
+- before-after hand pass
+
+每个动作必须有：
+
+```text
+start_state -> action -> end_state
+```
+
+五格故事版必须像一条动作链，而不是五个独立摆拍。
+
+### 镜头库
+
+`camera_ref` 决定每格怎么拍。
+
+可选镜头：
+
+- locked-off demo
+- top-down tabletop
+- macro push-in
+- handheld follow
+- slow dolly
+- rack focus
+- tabletop tracking
+- orbit product reveal
+- hero reveal
+- match cut
+- split-screen comparison
+- over-the-shoulder product check
+
+镜头选择必须服务：
+
+- 0-2s hook
+- 商品细节证明
+- 人物动作可读
+- 横屏构图
+- 下一格动作连续
+- 视频 demo 可生成
 
 ## 商品行为适配器
 
@@ -510,6 +882,21 @@ DTC 创意只能在商品真相锁定之后进入。
 
 必须调用可用的图片生成或图片编辑能力，生成一张横屏 5 格 16:9 storyboard / contact-sheet 图，并把图片嵌入 `## 2. 故事版`。
 
+故事版图片必须基于 `DTC Creative Reference Pack`。没有实时参考、授权参考、用户参考或内置库参考时，不进入故事版生成。
+
+故事版图片生成指令必须包含：
+
+- 商品真相锁
+- 内容属性锁
+- 已选广告参考逻辑
+- 场景库选择
+- 模特 / 人物库选择
+- 运动库选择
+- 镜头库选择
+- 画面片段逻辑
+- 剧本结构
+- 横屏 16:9 contact-sheet 约束
+
 ## 横屏画幅门槛
 
 故事版图片用于横屏视频预演。
@@ -608,6 +995,7 @@ DTC 创意只能在商品真相锁定之后进入。
 
 ```text
 内容属性锁: 一句概括 target_buyer、content_angle、hook_type、core_message、proof_asset
+创意参考锁: 一句概括 selected_ad_references、scene_ref、model_ref、motion_ref、camera_ref、script_pattern
 创意大片方向: 一句简洁的 DTC Creative Film Treatment
 同一拍摄世界锁: 一段紧凑的 Shooting World Lock
 5 格 16:9 横屏连续关键帧图片: 这里必须嵌入一张实际生成的横屏 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面；每格必须有内容任务、真实拍摄感和连续动作
@@ -617,11 +1005,22 @@ DTC 创意只能在商品真相锁定之后进入。
 
 5 格逻辑：
 
-1. Hook / 商品进入 / SKU 锚点
-2. 买家疑虑 / 内容角度建立
-3. 商品证明 / 机制 / 细节
-4. 使用瞬间 / 利益点 / 反对点消除
-5. CTA intent / 购买信心 / 最终商品主导状态
+1. Hook / 商品进入 / SKU 锚点 / 参考 hook 结构
+2. 买家疑虑 / 内容角度建立 / 参考场景和人物关系
+3. 商品证明 / 机制 / 细节 / 参考 proof mechanic
+4. 使用瞬间 / 利益点 / 反对点消除 / 参考动作和镜头运动
+5. CTA intent / 购买信心 / 最终商品主导状态 / 参考 CTA 结构
+
+每一格必须内部标注：
+
+```text
+scene_ref
+model_ref
+motion_ref
+camera_ref
+picture_fragment_logic
+product_truth_lock
+```
 
 至少两格必须证明商品细节。
 
@@ -663,6 +1062,12 @@ DTC 创意只能在商品真相锁定之后进入。
 11-15s: CTA intent / purchase confidence
 ```
 
+脚本还必须承担视频 demo 任务：
+
+- `Camera / Motion` 描述当前片段的镜头和动作。
+- `Reference Logic` 描述这一段借鉴的结构、场景、运动、画面片段或剧本逻辑。
+- `Reference Logic` 不写具体品牌名，不把参考广告当成最终素材。
+
 不要引入：
 
 - 新人物
@@ -676,16 +1081,16 @@ DTC 创意只能在商品真相锁定之后进入。
 15 秒脚本格式：
 
 ```markdown
-| 时间 | 画面 | 屏幕字幕 | 旁白 / 口播 |
-|---|---|---|---|
-| 0-2s | ... | Clear product hook | "..." |
-| 2-5s | ... | Why it matters | "..." |
-| 5-8s | ... | Proof you can see | "..." |
-| 8-11s | ... | Built for this use | "..." |
-| 11-15s | ... | Check the details | "..." |
+| 时间 | 画面 | Camera / Motion | 屏幕字幕 | 旁白 / 口播 | Reference Logic |
+|---|---|---|---|---|---|
+| 0-2s | ... | locked-off demo / hand enters frame | Clear product hook | "..." | borrowed hook structure |
+| 2-5s | ... | top-down align / slow push-in | Why it matters | "..." | borrowed scene and model logic |
+| 5-8s | ... | macro push-in / texture touch | Proof you can see | "..." | borrowed proof mechanic |
+| 8-11s | ... | handheld follow / product action completes | Built for this use | "..." | borrowed motion chain |
+| 11-15s | ... | hero reveal / camera settles | Check the details | "..." | borrowed CTA structure |
 ```
 
-所有屏幕字幕和旁白必须是英文。
+所有屏幕字幕、旁白、Camera / Motion 和 Reference Logic 必须是英文。
 
 字幕规则：
 
@@ -700,6 +1105,8 @@ DTC 创意只能在商品真相锁定之后进入。
 
 - 是否先展示产品图
 - `## 2. 故事版` 是否已经嵌入真实图片
+- 生成故事版前是否形成 `DTC Creative Reference Pack`
+- 是否保存 `source_url` 或本地素材路径
 - 图片是否是横屏，不是竖屏或方图
 - 5 个 panel 是否都是横屏 16:9 构图
 - 5 格是否像同一次拍摄里的连续关键帧
@@ -707,6 +1114,9 @@ DTC 创意只能在商品真相锁定之后进入。
 - 是否没有用文字分镜、表格或 prompt 替代故事版图片
 - 商品真相是否保持
 - 是否内部建立了 Content Attribute Card
+- 是否完成实时广告参考采集或降级到用户参考 / 内置库
+- 是否拆解了广告参考的场景、人物、动作、镜头、节奏、画面片段和剧本结构
+- 是否选择了 scene_ref、model_ref、motion_ref、camera_ref
 - target_buyer、buyer_stage、content_angle、hook_type、core_message 是否清楚
 - 是否内部选择了 DTC creative lens
 - buyer event 是否有商品证据支持
@@ -715,7 +1125,7 @@ DTC 创意只能在商品真相锁定之后进入。
 - 至少两格是否证明商品细节
 - 至少两格是否承载创意镜头
 - 每一格是否有内容任务，而不是只负责好看
-- 脚本是否包含 hook、tension、proof、benefit、CTA intent
+- 脚本是否包含 hook、tension、proof、benefit、CTA intent、Camera / Motion、Reference Logic
 - 是否没有添加不支持的声明或场景
 - 故事版是否像一个连续的 DTC 商品创意，而不是五张随机图
 - 脚本是否匹配故事版
