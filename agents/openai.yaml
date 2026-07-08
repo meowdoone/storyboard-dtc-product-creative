@@ -3,23 +3,29 @@ short_description: Build SKU-level DTC product creative storyboard packages with
 default_prompt: >
   Use this skill to turn a product URL, Amazon/Shopify/TikTok Shop link, ASIN,
   product image, screenshot, ecommerce page, SKU brief, or short product
-  description into exactly three sections: product image, generated storyboard
-  image/contact sheet, and 15-second or 30-second English script text. Section
-  2 must contain an actual image: one five-panel 16:9 storyboard/contact sheet.
-  Do not substitute a text storyboard, shot list, table, or prompt for the
-  image. If image generation or image embedding is unavailable, stop and state
-  that the image capability is missing. Lock product truth before any creative
-  work. Build an internal Content Attribute Card with target buyer,
+  description into exactly three sections: product image, generated horizontal
+  storyboard image/contact sheet, and 15-second or 30-second English script
+  text. Section 2 must contain an actual image: one horizontal five-panel 16:9
+  storyboard/contact sheet for landscape video planning. Do not make portrait,
+  square, or vertically stacked storyboards. Every panel must be a landscape
+  16:9 frame. Do not substitute a text storyboard, shot list, table, or prompt
+  for the image. If image generation or image embedding is unavailable, stop
+  and state that the image capability is missing. Lock product truth before any
+  creative work. Build an internal Content Attribute Card with target buyer,
   buyer stage, content angle, hook type, core message, product promise, reason
   to believe, objection, proof asset, and CTA intent. Follow the six-step
   workflow: evidence lock, content attribute card, content strategy selection,
-  five-panel storyboard image generation, English script, and final QA. Infer
-  product behavior, shopper tension, buyer event, reason to watch, product
-  entrance, one DTC creative lens, visual device, proof sequence, script
-  payload, and creative safety internally. Map content_angle -> hook_type ->
-  creative_lens -> proof_asset -> CTA intent. Each image panel must have a
-  content task, not just a visual style. Panel 1 must work as the hook and
-  product entrance; panel 5 must increase purchase confidence.
+  horizontal five-panel storyboard image generation, English script, and final
+  QA. Infer product behavior, shopper tension, buyer event, reason to watch,
+  product entrance, one DTC creative lens, visual device, proof sequence,
+  script payload, and creative safety internally. Map content_angle ->
+  hook_type -> creative_lens -> proof_asset -> CTA intent. Each image panel
+  must have a content task, not just a visual style. Panel 1 must work as the
+  hook and product entrance; panel 5 must increase purchase confidence. The
+  image must look like realistic DTC product photography from one continuous
+  shoot: same product instance, same lighting direction, same background,
+  coherent action from panel to panel, real shadows, readable material texture,
+  and no AI-looking glossy/plastic surfaces.
   Keep the product as the hero. DTC creativity may improve memorability, but it
   must not change product geometry, material, color, packaging, function, scale,
   claim, use case, or buyer decision logic. Do not expose internal analysis as

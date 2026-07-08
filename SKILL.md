@@ -1,6 +1,6 @@
 ---
 name: storyboard-dtc-product-creative
-description: Use when a user wants a SKU-level DTC product creative storyboard from a product link, Amazon/Shopify/TikTok Shop URL, product image, product screenshot, ecommerce page, ASIN, SKU brief, or short product description. The required output format is exactly product image first, then a generated storyboard image/contact sheet, then 15-second or 30-second video script text. Product truth is the hard gate; DTC creative lens is allowed only after product identity, function, material, scale, claims, and use logic are locked.
+description: Use when a user wants a SKU-level DTC product creative storyboard from a product link, Amazon/Shopify/TikTok Shop URL, product image, product screenshot, ecommerce page, ASIN, SKU brief, or short product description. The required output format is exactly product image first, then a generated horizontal storyboard image/contact sheet, then 15-second or 30-second video script text. Product truth is the hard gate; DTC creative lens is allowed only after product identity, function, material, scale, claims, and use logic are locked.
 ---
 
 # DTC 商品创意故事版 Skill
@@ -70,7 +70,9 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 
 不要默认输出 JSON、长分析、negative prompt、平台报告、DTC 理论、竞品分析或额外章节。
 
-`## 2. 故事版` 必须输出真实图片：一张 5 格 16:9 storyboard / contact-sheet 图。不能只输出文字分镜、表格、prompt 或镜头描述。
+`## 2. 故事版` 必须输出真实图片：一张横屏 5 格 16:9 storyboard / contact-sheet 图。不能只输出文字分镜、表格、prompt 或镜头描述。
+
+图片必须是横屏拍摄逻辑：不能是竖屏拼贴，不能是方图思维，不能把 5 格做成竖向排列。
 
 如果当前环境不能生成或嵌入图片，停止并说明缺少图片生成能力；不要用文字故事版代替。
 
@@ -118,16 +120,19 @@ description: Use when a user wants a SKU-level DTC product creative storyboard f
 - `product_entrance` 发生在第 1 或第 2 格。
 - `visual_device` 能组织 5 格画面。
 
-### 4. 5 格故事版图片生成
+### 4. 横屏故事版图片生成
 
-把内容策略映射并生成成一张 5 格 16:9 storyboard / contact-sheet 图片。
+把内容策略映射并生成成一张横屏 5 格 16:9 storyboard / contact-sheet 图片。
 
 完成标准：
 
 - `## 2. 故事版` 下方已经嵌入实际图片。
-- 图片是一张横向 5 格 contact sheet，不是 5 条文字。
+- 最终图片是横屏；如果工具支持画幅参数，使用 16:9 landscape。
+- 5 个画面必须是横屏 16:9 frame。
+- 5 个画面默认横向单行排列；不要竖向排列。
 - 每一格有一个内容任务。
 - 每一格都保持商品真相。
+- 每一格像同一次真实拍摄里的连续镜头。
 - 至少两格证明商品细节。
 - 至少两格承载内容角度或 creative lens。
 - 第 5 格增强购买信心，而不是只做漂亮收尾。
@@ -503,7 +508,81 @@ DTC 创意只能在商品真相锁定之后进入。
 
 故事版必须是一张图片。
 
-必须调用可用的图片生成或图片编辑能力，生成一张 5 格 16:9 storyboard / contact-sheet 图，并把图片嵌入 `## 2. 故事版`。
+必须调用可用的图片生成或图片编辑能力，生成一张横屏 5 格 16:9 storyboard / contact-sheet 图，并把图片嵌入 `## 2. 故事版`。
+
+## 横屏画幅门槛
+
+故事版图片用于横屏视频预演。
+
+必须满足：
+
+- 最终画布是 landscape 横屏，不是 portrait 竖屏。
+- 每一个 panel 都是横屏 16:9 构图。
+- 默认用 5 个横屏 panel 横向单行排列。
+- 如果图片模型容易做成方图，也必须在图内保留明确横屏 contact sheet，不做竖向堆叠。
+- panel 编号可以很小，但不能挤占商品画面。
+
+如果生成结果出现以下情况，必须重生成：
+
+- 竖屏画布
+- 方形九宫格感
+- 5 格上下排列
+- panel 内部是竖屏短视频画面
+- 商品被竖向裁切，看不清横屏构图
+
+## 连续拍摄门槛
+
+故事版不是 5 张随机图。
+
+必须像同一次真实拍摄里的连续关键帧：
+
+- 同一个商品实例。
+- 同一颜色、材质、比例、包装、logo / 标签。
+- 同一个拍摄世界。
+- 同一光源方向和光线强度。
+- 同一桌面 / 房间 / 背景材质。
+- 同一镜头语言，允许远景、中景、近景变化，但不能像不同广告片。
+- 同一手部 / 人物设定；如果没有必要，不引入人物。
+- 动作从上一格自然进入下一格。
+
+如果生成结果出现以下情况，必须重生成：
+
+- 每格像不同场景
+- 商品比例、颜色或材质跳变
+- 光线方向跳变
+- 手部、人物或道具不连续
+- 第 1 格和第 5 格像两个不同项目
+
+## 真实拍摄门槛
+
+图片必须像真实可拍的 DTC 商品素材，而不是 AI 风格概念图。
+
+生成图片时优先使用：
+
+- natural daylight / soft studio daylight
+- real shadows
+- physical contact shadows
+- readable material texture
+- realistic lens perspective
+- practical tabletop, hand, hanger, package, use setup
+- product-first composition
+- restrained props
+
+避免：
+
+- plastic skin / plastic fabric
+- glossy unreal surfaces
+- floating product
+- impossible shadows
+- over-sharp AI texture
+- random decorative props
+- fantasy lighting
+- fake UI
+- fake review cards
+- fake platform badges
+- unreadable micro text
+
+如果商品是定制类、配置类或上传图片类，设计素材只用中性占位卡表示，除非商品证据里明确给出具体图案。不要生成看起来像商品自带的假图案。
 
 不允许把下面任何内容当作故事版交付：
 
@@ -520,7 +599,9 @@ DTC 创意只能在商品真相锁定之后进入。
 - 有记忆点
 - 有商业可用性
 - 足够真实，可以成为电商生产素材
+- 横屏画幅正确
 - 5 格保持一致
+- 5 格动作连贯
 - 只围绕一个清晰 creative lens
 
 默认故事版格式：
@@ -529,7 +610,7 @@ DTC 创意只能在商品真相锁定之后进入。
 内容属性锁: 一句概括 target_buyer、content_angle、hook_type、core_message、proof_asset
 创意大片方向: 一句简洁的 DTC Creative Film Treatment
 同一拍摄世界锁: 一段紧凑的 Shooting World Lock
-5 格 16:9 连续关键帧图片: 这里必须嵌入一张实际生成的 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面；每格必须有内容任务
+5 格 16:9 横屏连续关键帧图片: 这里必须嵌入一张实际生成的横屏 storyboard/contact-sheet 图，包含五个编号 16:9 商品证明创意画面；每格必须有内容任务、真实拍摄感和连续动作
 ```
 
 默认不把每格画面写成表格。每格任务应该进入图片生成指令和最终图片，而不是作为文字故事版替代图片。
@@ -554,6 +635,7 @@ DTC 创意只能在商品真相锁定之后进入。
 
 如果出现以下问题，拒绝或重画：
 
+- 竖屏或方图，不适合横屏视频预演
 - 商品不可读
 - 场景好看但没用
 - 光线或阴影假
@@ -562,6 +644,7 @@ DTC 创意只能在商品真相锁定之后进入。
 - 道具干扰商品决策
 - 创意镜头变成无关美术风格
 - 商品消失在视觉世界里
+- 5 格缺少连续动作，像五张随机生成图
 - 最后一格不能增强购买信心
 
 ## 脚本规则
@@ -617,6 +700,10 @@ DTC 创意只能在商品真相锁定之后进入。
 
 - 是否先展示产品图
 - `## 2. 故事版` 是否已经嵌入真实图片
+- 图片是否是横屏，不是竖屏或方图
+- 5 个 panel 是否都是横屏 16:9 构图
+- 5 格是否像同一次拍摄里的连续关键帧
+- 真实拍摄感是否足够，是否有真实阴影、材质和物理接触
 - 是否没有用文字分镜、表格或 prompt 替代故事版图片
 - 商品真相是否保持
 - 是否内部建立了 Content Attribute Card
